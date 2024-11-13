@@ -1,12 +1,15 @@
-// app.js
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-require('dotenv').config();
+import express from 'express';           // Use ES Module syntax for imports
+import mongoose from 'mongoose';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import dataRoutes from './src/routes/dataRoutes.js';
 
-const dataRoutes = require('./src/routes/dataRoutes.js');
+dotenv.config();  // Load environment variables
 
 const app = express();
+const port = process.env.PORT || 5000;
+
+// Middlewares
 app.use(cors());
 app.use(express.json());
 
@@ -19,7 +22,8 @@ app.use(express.json());
 // .catch((error) => console.error('MongoDB connection error:', error));
 
 // Set up routes
-app.use('/api/data', dataRoutes);
+app.use('/api', dataRoutes); // Define the base route for API
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
